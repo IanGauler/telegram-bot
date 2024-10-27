@@ -5,6 +5,8 @@ require 'web_mock'
 
 require "#{File.dirname(__FILE__)}/../app/bot_client"
 
+TOKEN = 'fake_token'.freeze
+
 def when_i_send_text(token, message_text)
   body = { "ok": true, "result": [{ "update_id": 693_981_718,
                                     "message": { "message_id": 11,
@@ -77,79 +79,58 @@ end
 
 describe 'BotClient' do
   it 'should get a /version message and respond with current version' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/version')
+    then_i_get_text(TOKEN, Version.current)
 
-    when_i_send_text(token, '/version')
-    then_i_get_text(token, Version.current)
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get a /say_hi message and respond with Hola Emilio' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/say_hi Emilio')
+    then_i_get_text(TOKEN, 'Hola, Emilio')
 
-    when_i_send_text(token, '/say_hi Emilio')
-    then_i_get_text(token, 'Hola, Emilio')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get a /start message and respond with Hola' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/start')
+    then_i_get_text(TOKEN, 'Hola, Emilio')
 
-    when_i_send_text(token, '/start')
-    then_i_get_text(token, 'Hola, Emilio')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get a /stop message and respond with Chau' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/stop')
+    then_i_get_text(TOKEN, 'Chau, egutter')
 
-    when_i_send_text(token, '/stop')
-    then_i_get_text(token, 'Chau, egutter')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get a /tv message and respond with an inline keyboard' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/tv')
+    then_i_get_keyboard_message(TOKEN, 'Quien se queda con el trono?')
 
-    when_i_send_text(token, '/tv')
-    then_i_get_keyboard_message(token, 'Quien se queda con el trono?')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get a "Quien se queda con el trono?" message and respond with' do
-    token = 'fake_token'
+    when_i_send_keyboard_updates(TOKEN, 'Quien se queda con el trono?', '2')
+    then_i_get_text(TOKEN, 'A mi también me encantan los dragones!')
 
-    when_i_send_keyboard_updates(token, 'Quien se queda con el trono?', '2')
-    then_i_get_text(token, 'A mi también me encantan los dragones!')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 
   it 'should get an unknown message message and respond with Do not understand' do
-    token = 'fake_token'
+    when_i_send_text(TOKEN, '/unknown')
+    then_i_get_text(TOKEN, 'Uh? No te entiendo! Me repetis la pregunta?')
 
-    when_i_send_text(token, '/unknown')
-    then_i_get_text(token, 'Uh? No te entiendo! Me repetis la pregunta?')
-
-    app = BotClient.new(token)
-
+    app = BotClient.new(TOKEN)
     app.run_once
   end
 end
