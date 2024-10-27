@@ -13,6 +13,12 @@ class Routes
     bot.api.send_message(chat_id: message.chat.id, text: "Hola, #{args['name']}")
   end
 
+  on_message_pattern %r{/popularidad (?<artist_name>.*)} do |bot, message, _args|
+    response = 'El artista es muy popular'
+
+    bot.api.send_message(chat_id: message.chat.id, text: response)
+  end
+
   on_message '/stop' do |bot, message|
     bot.api.send_message(chat_id: message.chat.id, text: "Chau, #{message.from.username}")
   end
