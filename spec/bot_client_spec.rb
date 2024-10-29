@@ -178,6 +178,19 @@ describe 'BotClient' do
     app.run_once
   end
 
+  it '/popularidad shows an error message when the api call fails' do
+    artist_name = 'Socratis Anthis'
+    error_message = 'Error en la llamada a Spotify: No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
+
+    stub_request(:get, "https://api.spotify.com/v1/search?q=#{artist_name}&type=artist&limit=1&market=AR")
+      .to_return(status: 500, body: '', headers: {})
+    when_i_send_text(TOKEN, "/popularidad #{artist_name}")
+    then_i_get_text(TOKEN, error_message)
+
+    app = BotClient.new(TOKEN)
+    app.run_once
+  end
+
   it 'should get an unknown message message and respond with Do not understand' do
     when_i_send_text(TOKEN, '/unknown')
     then_i_get_text(TOKEN, 'Uh? No te entiendo! Me repetis la pregunta?')

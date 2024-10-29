@@ -19,8 +19,12 @@ class Routes
     artist_name = args['artist_name']
     spotify_connector = SpotifyConnector.new
     spotify_popularity = ArtistPopularity.create_with_connector(spotify_connector)
-    popularity = spotify_popularity.popularity(artist_name)
-    response = "El artista es \"#{popularity}\""
+    begin
+      popularity = spotify_popularity.popularity(artist_name)
+      response = "El artista es \"#{popularity}\""
+    rescue StandardError => e
+      response = e.message
+    end
     bot.api.send_message(chat_id: message.chat.id, text: response)
   end
 
