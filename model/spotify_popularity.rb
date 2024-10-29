@@ -1,3 +1,5 @@
+require_relative 'popularity'
+
 class SpotifyPopularity
   VERY_POPULAR = 90
 

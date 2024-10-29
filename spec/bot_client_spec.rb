@@ -152,17 +152,17 @@ describe 'BotClient' do
     artist_name = 'Lady Gaga'
     stub_spotify_popularity_request(artist_name, 92)
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")
-    then_i_get_text(TOKEN, 'El artista es muy popular')
+    then_i_get_text(TOKEN, 'El artista es "muy popular"')
 
     app = BotClient.new(TOKEN)
     app.run_once
   end
 
-  xit '/popularidad returns "el artista es popular" for a popular artist' do
+  it '/popularidad returns "el artista es popular" for a popular artist' do
     artist_name = 'Kygo'
     stub_spotify_popularity_request(artist_name, 88)
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")
-    then_i_get_text(TOKEN, 'El artista es popular')
+    then_i_get_text(TOKEN, 'El artista es "popular"')
 
     app = BotClient.new(TOKEN)
     app.run_once

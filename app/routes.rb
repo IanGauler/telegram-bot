@@ -1,6 +1,8 @@
 require "#{File.dirname(__FILE__)}/../lib/routing"
 require "#{File.dirname(__FILE__)}/../lib/version"
 require "#{File.dirname(__FILE__)}/tv/series"
+require "#{File.dirname(__FILE__)}/connectors/spotify_connector"
+require "#{File.dirname(__FILE__)}/../model/spotify_popularity"
 
 class Routes
   include Routing
@@ -13,9 +15,12 @@ class Routes
     bot.api.send_message(chat_id: message.chat.id, text: "Hola, #{args['name']}")
   end
 
-  on_message_pattern %r{/popularidad (?<artist_name>.*)} do |bot, message, _args|
-    response = 'El artista es muy popular'
-
+  on_message_pattern %r{/popularidad (?<artist_name>.*)} do |bot, message, args|
+    artist_name = args['artist_name']
+    spotify_connector = SpotifyConnector.new
+    spotify_popularity = SpotifyPopularity.create_with_connector(spotify_connector)
+    popularity = spotify_popularity.popularity(artist_name)
+    response = "El artista es \"#{popularity}\""
     bot.api.send_message(chat_id: message.chat.id, text: response)
   end
 
