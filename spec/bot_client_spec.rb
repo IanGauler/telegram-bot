@@ -158,6 +158,16 @@ describe 'BotClient' do
     app.run_once
   end
 
+  xit '/popularidad returns "el artista es popular" for a popular artist' do
+    artist_name = 'Kygo'
+    stub_spotify_popularity_request(artist_name, 88)
+    when_i_send_text(TOKEN, "/popularidad #{artist_name}")
+    then_i_get_text(TOKEN, 'El artista es popular')
+
+    app = BotClient.new(TOKEN)
+    app.run_once
+  end
+
   it 'should get an unknown message message and respond with Do not understand' do
     when_i_send_text(TOKEN, '/unknown')
     then_i_get_text(TOKEN, 'Uh? No te entiendo! Me repetis la pregunta?')
