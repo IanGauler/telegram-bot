@@ -1,10 +1,10 @@
 require_relative 'popularity'
 
-class SpotifyPopularity
+class ArtistPopularity
   VERY_POPULAR = 90
 
   def self.create_with_connector(connector)
-    SpotifyPopularity.new(connector)
+    ArtistPopularity.new(connector)
   end
 
   def initialize(connector)
