@@ -11,7 +11,8 @@
 		  "extensions": [
 			"Shopify.ruby-extensions-pack",
 			"connorshea.vscode-ruby-test-adapter",
-			"mhutchie.git-graph"
+			"mhutchie.git-graph",
+			"GitLab.gitlab-workflow"
 		]
 		}
 	}
