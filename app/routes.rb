@@ -21,7 +21,7 @@ class Routes
     spotify_popularity = ArtistPopularity.create_with_connector(spotify_connector)
     begin
       popularity = spotify_popularity.popularity(artist_name)
-      response = "El artista es \"#{popularity}\""
+      response = "El artista es #{popularity}"
     rescue StandardError => e
       response = e.message
     end
