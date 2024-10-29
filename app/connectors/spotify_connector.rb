@@ -8,7 +8,10 @@ class SpotifyConnector
                                  { Authorization: "Bearer #{api_key}" })
       if api_response.success?
         response_json = JSON.parse(api_response.body)
-        response_json.dig('artists', 'items', 0, 'popularity')
+        popularity = response_json.dig('artists', 'items', 0, 'popularity')
+        return popularity if popularity
+
+        raise 'Formato de respuesta inesperado'
       else
         raise 'No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
       end

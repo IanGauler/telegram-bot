@@ -99,6 +99,19 @@ def stub_spotify_popularity_request(artist_name, popularity)
     ).to_return(status: 200, body: api_spotify_response_body.to_json, headers: {})
 end
 
+def stub_spotify_popularity_request_error_format(artist_name)
+  artist_search_endpoint = "https://api.spotify.com/v1/search?q=#{artist_name}&type=artist&limit=1&market=AR"
+
+  stub_request(:get, artist_search_endpoint)
+    .with(
+      headers: {
+        'Accept' => '*/*',
+        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'User-Agent' => 'Faraday v2.7.4'
+      }
+    ).to_return(status: 200, body: '{"unexpected_key": "unexpected_value"}', headers: {})
+end
+
 describe 'BotClient' do
   it 'should get a /version message and respond with current version' do
     when_i_send_text(TOKEN, '/version')
@@ -184,6 +197,18 @@ describe 'BotClient' do
 
     stub_request(:get, "https://api.spotify.com/v1/search?q=#{artist_name}&type=artist&limit=1&market=AR")
       .to_return(status: 500, body: '', headers: {})
+    when_i_send_text(TOKEN, "/popularidad #{artist_name}")
+    then_i_get_text(TOKEN, error_message)
+
+    app = BotClient.new(TOKEN)
+    app.run_once
+  end
+
+  it '/popularidad shows an error message when the response is not as expected' do
+    artist_name = 'Socratis Anthis'
+    error_message = 'Error en la llamada a Spotify: Formato de respuesta inesperado'
+    stub_spotify_popularity_request_error_format(artist_name)
+
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")
     then_i_get_text(TOKEN, error_message)
 
