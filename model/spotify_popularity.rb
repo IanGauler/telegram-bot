@@ -11,8 +11,6 @@ class SpotifyPopularity
 
   def popularity(artist_name)
     popularity = @connector.get_popularity_for(artist_name)
-    return 'muy popular' if popularity >= VERY_POPULAR
-
-    'popular'
+    PopularityFactory.popularity_for(popularity).response
   end
 end

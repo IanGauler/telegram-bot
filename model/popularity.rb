@@ -23,7 +23,7 @@ end
 class PopularityFactory
   VERY_POPULAR = 90
 
-  def self.create(popularity)
+  def self.popularity_for(popularity)
     return VeryPopular.new(popularity) if popularity >= VERY_POPULAR
 
     Popular.new(popularity)
