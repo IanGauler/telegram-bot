@@ -13,4 +13,10 @@ describe Popularity do
     popularity = PopularityFactory.popularity_for(popular_number)
     expect(popularity.response).to eq('popular')
   end
+
+  it 'should respond with "desconocido" for an Unknown artist' do
+    unknown_number = 50
+    popularity = PopularityFactory.popularity_for(unknown_number)
+    expect(popularity.response).to eq('desconocido')
+  end
 end
