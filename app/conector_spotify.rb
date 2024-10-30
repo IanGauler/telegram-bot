@@ -1,5 +1,5 @@
-class SpotifyConnector
-  def get_popularity_for(artist_name)
+class ConectorSpotify
+  def obtener_popularidad_de(artist_name)
     api_key = ENV['SPOTIFY_API_KEY']
     url = 'https://api.spotify.com/v1/search'
     begin

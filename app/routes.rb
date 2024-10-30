@@ -1,8 +1,8 @@
 require "#{File.dirname(__FILE__)}/../lib/routing"
 require "#{File.dirname(__FILE__)}/../lib/version"
 require "#{File.dirname(__FILE__)}/tv/series"
-require "#{File.dirname(__FILE__)}/connectors/spotify_connector"
-require "#{File.dirname(__FILE__)}/../model/artist_popularity"
+require "#{File.dirname(__FILE__)}/conector_spotify"
+require "#{File.dirname(__FILE__)}/../model/popularidad_artista"
 
 class Routes
   include Routing
@@ -16,16 +16,16 @@ class Routes
   end
 
   on_message_pattern %r{/popularidad (?<artist_name>.*)} do |bot, message, args|
-    artist_name = args['artist_name']
-    spotify_connector = SpotifyConnector.new
-    spotify_popularity = ArtistPopularity.create_with_connector(spotify_connector)
+    nombre_artista = args['artist_name']
+    conector_spotify = ConectorSpotify.new
+    popularidad_spotify = PopularidadArtista.crear_con_conector(conector_spotify)
     begin
-      popularity = spotify_popularity.popularity(artist_name)
-      response = "El artista es #{popularity}"
+      popularidad = popularidad_spotify.popularidad_de(nombre_artista)
+      respuesta = "El artista es #{popularidad}"
     rescue StandardError => e
-      response = e.message
+      respuesta = e.message
     end
-    bot.api.send_message(chat_id: message.chat.id, text: response)
+    bot.api.send_message(chat_id: message.chat.id, text: respuesta)
   end
 
   on_message '/stop' do |bot, message|
