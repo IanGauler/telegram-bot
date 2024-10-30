@@ -27,7 +27,7 @@ class FabricaPopularidad
   UMBRAL_POPULAR = 70
 
   def popularidad_para_puntaje(popularidad)
-    return MuyPopular.new if popularidad >= UMBRAL_MUY_POPULAR
+    return MuyPopular.new if popularidad > UMBRAL_MUY_POPULAR
     return Popular.new if popularidad >= UMBRAL_POPULAR
 
     Desconocido.new

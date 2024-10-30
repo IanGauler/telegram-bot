@@ -9,13 +9,13 @@ describe Popularidad do
   end
 
   it 'should respond with "popular" for a Popular artist' do
-    calificacion_popular = 88
+    calificacion_popular = 90
     metrica_popularidad = FabricaPopularidad.new.popularidad_para_puntaje(calificacion_popular)
     expect(metrica_popularidad.respuesta).to eq('popular')
   end
 
   it 'should respond with "desconocido" for an Unknown artist' do
-    calificacion_desconocido = 50
+    calificacion_desconocido = 69
     metrica_popularidad = FabricaPopularidad.new.popularidad_para_puntaje(calificacion_desconocido)
     expect(metrica_popularidad.respuesta).to eq('desconocido')
   end
