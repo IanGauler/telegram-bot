@@ -13,6 +13,8 @@ class ConectorSpotify
 
         raise 'Formato de respuesta inesperado'
       else
+        raise 'No se pudo autenticar con Spotify. Verifica tu API key.' if api_response.status == 401
+
         raise 'No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
       end
     rescue StandardError => e
