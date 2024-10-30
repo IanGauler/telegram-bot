@@ -235,7 +235,7 @@ describe 'BotClient' do
 
   it '/popularidad shows an error message when the api key is invalid' do
     artist_name = 'Socratis Anthis'
-    error_message = 'Error en la comunicación con Spotify: No se pudo autenticar con Spotify. Comunícate con el administrador.'
+    error_message = 'Error en la comunicación con Spotify: No se pudo autenticar correctamente. Comunícate con el administrador.'
     stub_spotify_popularity_request_api_key_error(artist_name)
 
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")

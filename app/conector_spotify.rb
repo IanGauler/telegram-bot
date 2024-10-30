@@ -36,7 +36,7 @@ class ConectorSpotify
   def manejar_error_api(respuesta_api)
     case respuesta_api.status
     when 401
-      raise 'No se pudo autenticar con Spotify. Comunícate con el administrador.'
+      raise 'No se pudo autenticar correctamente. Comunícate con el administrador.'
     else
       raise 'No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
     end
