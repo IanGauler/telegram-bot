@@ -5,7 +5,7 @@ class ConectorSpotify
     respuesta_api = buscar_data_artista(nombre_artista)
     manejar_respuesta_api(respuesta_api)
   rescue StandardError => e
-    raise "Error en la llamada a Spotify: #{e.message}"
+    raise "Error en la comunicación con Spotify: #{e.message}"
   end
 
   private
@@ -22,7 +22,7 @@ class ConectorSpotify
       popularidad = extraer_popularidad(respuesta_api)
       return popularidad if popularidad
 
-      raise 'Formato de respuesta inesperado'
+      raise 'Formato de respuesta inesperado. Comunícate con el administrador.'
     else
       manejar_error_api(respuesta_api)
     end
@@ -36,7 +36,7 @@ class ConectorSpotify
   def manejar_error_api(respuesta_api)
     case respuesta_api.status
     when 401
-      raise 'No se pudo autenticar con Spotify. Verifica tu API key.'
+      raise 'No se pudo autenticar con Spotify. Comunícate con el administrador.'
     else
       raise 'No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
     end

@@ -210,7 +210,7 @@ describe 'BotClient' do
 
   it '/popularidad shows an error message when the api call fails' do
     artist_name = 'Socratis Anthis'
-    error_message = 'Error en la llamada a Spotify: No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
+    error_message = 'Error en la comunicación con Spotify: No se pudo obtener la popularidad del artista en este momento. Intenta más tarde.'
 
     stub_request(:get, "https://api.spotify.com/v1/search?q=#{artist_name}&type=artist&limit=1&market=AR")
       .to_return(status: 500, body: '', headers: {})
@@ -223,7 +223,7 @@ describe 'BotClient' do
 
   it '/popularidad shows an error message when the response is not as expected' do
     artist_name = 'Socratis Anthis'
-    error_message = 'Error en la llamada a Spotify: Formato de respuesta inesperado'
+    error_message = 'Error en la comunicación con Spotify: Formato de respuesta inesperado. Comunícate con el administrador.'
     stub_spotify_popularity_request_error_format(artist_name)
 
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")
@@ -235,7 +235,7 @@ describe 'BotClient' do
 
   it '/popularidad shows an error message when the api key is invalid' do
     artist_name = 'Socratis Anthis'
-    error_message = 'Error en la llamada a Spotify: No se pudo autenticar con Spotify. Verifica tu API key.'
+    error_message = 'Error en la comunicación con Spotify: No se pudo autenticar con Spotify. Comunícate con el administrador.'
     stub_spotify_popularity_request_api_key_error(artist_name)
 
     when_i_send_text(TOKEN, "/popularidad #{artist_name}")
